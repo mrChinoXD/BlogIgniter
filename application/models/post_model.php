@@ -10,8 +10,8 @@
 				$query = $this->bd->get('post');
 				return $query->result_array();
 			}
-			$query = $this->db->get_where('posts');
+			$query = $this->db->get_where('post',array('slug' =>$slug));
+			return $query->row_array();
 		} 
-
 	}
- ?>
+ ?> 

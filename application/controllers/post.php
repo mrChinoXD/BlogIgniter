@@ -5,6 +5,7 @@ class Post extends CI_Controller{
  	$data['title'] = 'Letest Posts';
 
  	$data['posts'] = $this->post_model->get_posts();
+ 	print_r($data[$post]);
 
 	$this->load->view('template/header');
 	$this->load->view('posts/index', $data);
