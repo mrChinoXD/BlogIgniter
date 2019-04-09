@@ -7,7 +7,7 @@
 		}
 		public function get_posts($slug = FALSE){
 			if ($slug === FALSE) {
-				$query = $this->bd->get('post');
+				$query = $this->db->get('post');
 				return $query->result_array();
 			}
 			$query = $this->db->get_where('post',array('slug' =>$slug));
