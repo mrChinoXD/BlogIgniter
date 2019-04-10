@@ -30,25 +30,21 @@ class Post extends CI_Controller{
 			$this->load->view('posts/create', $data);
 			$this->load->view('template/footer');
  		}else{
- 			//upload files
  			$config['upload_path']='./assets/img/posts';
- 			$config['allowed_types']='gif|npg|jpg';
- 			$config['max_size']=' 2048';
- 			$config['max_width']='500';
- 			$config['max_heigth']='500';
-
-
+ 			$config['allowed_types']='gif|png|jpg';
  			$this->load->library('upload',$config);
- 			if ($this->upload->do_upload()) {
+
+ 			if (!$this->upload->do_upload()) {
  				$errors = array('error' => $this->upload->display_errors());
  				$post_image = 'noimage.jpg';
+ 				var_dump($errors);
  			}else{
  				$data = array('upload_data' => $this->upload->data());
+ 			
  				$post_image = $_FILES['userfile']['name'];
  			}
-
  			$this->post_model->create_post($post_image);
- 			redirect('index.php/post');
+ 			//redirect('index.php/post');
  		}
  }
  public function delete($id){	
