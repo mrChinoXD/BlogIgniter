@@ -3,6 +3,7 @@
 <head>
 	<title>Blog</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://cdn.ckeditor.com/4.11.4/standard/ckeditor.js"></script>
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -17,6 +18,9 @@
       </li>
       <li class="nav-tem">
         <a href="<?php echo base_url() ?>index.php/about" class="nav-link">about</a>
+      </li>
+      <li class="nav-tem">
+        <a href="<?php echo base_url() ?>index.php/post" class="nav-link">publicaciones</a>
       </li>
         </div>
       </li>

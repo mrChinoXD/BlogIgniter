@@ -1,1 +1,7 @@
-<h1>hola desde los posts</h1>
+<h2><?=$title?></h2>
+<?php foreach ($posts as $post) :?>
+	<h3><?php echo $post['title']; ?></h3>
+	<small class="post-date">Creado el: <?php echo $post['create_at']; ?> <strong> # <?php echo $post['name']; ?> </strong></small><br>
+	<?php echo word_limiter($post['body'],25); ?>
+	<p><a href="<?php echo base_url('index.php/post/view/'.$post['slug']); ?>">Leer Mas...</a></p>
+<?php endforeach; ?>
