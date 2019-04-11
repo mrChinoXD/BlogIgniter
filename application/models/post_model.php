@@ -47,5 +47,38 @@
 			$query = $this->db->get('categories');
 			return $query->result_array();
 		}
+		public function get_comments($idpost){
+		 $this->db->select('*');
+         $this->db->from('comments');
+         $this->db->where('idpost',$idpost);
+         $query=$this->db->get();
+         return $query->result_array();
+		}
+
+		function getRows($params = array()){
+        $this->db->select('*');
+        $this->db->from('post');
+        if(array_key_exists("id",$params)){
+            $this->db->where('id',$params['id']);
+            $query = $this->db->get();
+            $result = $query->row_array();
+        }else{
+            //set start and limit
+            if(array_key_exists("start",$params) && array_key_exists("limit",$params)){
+                $this->db->limit($params['limit'],$params['start']);
+            }elseif(!array_key_exists("start",$params) && array_key_exists("limit",$params)){
+                $this->db->limit($params['limit']);
+            }
+            if(array_key_exists("returnType",$params) && $params['returnType'] == 'count'){
+                $result = $this->db->count_all_results();
+            }else{
+                $query = $this->db->get();
+                $result = ($query->num_rows() > 0)?$query->result_array():FALSE;
+            }
+        }
+        return $result;
+    }
+
+
 	}
  ?> 
