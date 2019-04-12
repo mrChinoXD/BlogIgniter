@@ -1,29 +1,40 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+class Login extends CI_controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->library('form_validation');
+    }
+    public function index()
+    {
+        $this->form_validation->set_rules('nombre' ,'Nombre', 'required');
+        $this->form_validation->set_rules('password' ,'Password', 'required');
+        if($this->form_validation->run() == false)
+        {
+            $data['title'] = 'Blog';
+             $this->load->view('login',$data);
+        }
+        else
+        {
+  		$nombre = $this->input->post('nombre');
+        $password = md5($this->input->post('password'));
 
-class Login extends CI_Controller {
-
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
-	public function index()
-	{
-		if (isset($_POST['password'])) {
-			$this->load->model('usuario_model');
-			if ($this->usuario_model->login($_POST['username'],md5($_POST['password']))) {
-				redirect('welcomeAdmin');
-			}else{
-				redirect('index.php/login');
-			}
-		}
-
-
-
-		$this->load->view('login');	
-	}
-
+        if($user=$this->login_model->login($nombre, $password))
+        {
+         	$this->session->set_userdata('user_data', array(
+                'nombre'=>$user->nombre,
+                'id'=>$user->id,
+                 'mail'=>$user->correo,
+                 'password'=>$user->password
+                ));
+         	redirect('index.php/admin/index');
+        }
+        else
+        {
+            $this->form_validation->set_message('verifica','Contraseña incorrecta');
+            redirect('index.php/login');
+        }
+        }
+    }
 }
-
-/* End of file login.php */
-/* Location: ./application/controllers/login.php */

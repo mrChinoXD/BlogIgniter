@@ -6,8 +6,5 @@
 </div>
 <hr>
 <div class="row">
-<a href="<?php echo base_url(); ?>index.php/post/edit/<?php echo $post->slug ?>" class="btn btn-info m-2">Actualizar</a>
-<?php echo form_open("index.php/post/delete/".$post->id); ?>
-<input type="submit" value="Eliminar" class="btn btn-danger m-2">
 </form>
 </div>

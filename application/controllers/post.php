@@ -86,7 +86,7 @@ class Post extends CI_Controller{
 
  			if (!$this->upload->do_upload()) {
  				$errors = array('error' => $this->upload->display_errors());
- 				$post_image = 'noimage.jpg';
+ 				$post_image = 'noimage.png';
  				var_dump($errors);
  			}else{
  				$data = array('upload_data' => $this->upload->data());
