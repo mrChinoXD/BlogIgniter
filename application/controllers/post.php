@@ -75,41 +75,56 @@ class Post extends CI_Controller{
  	$this->form_validation->set_rules('title','Title','required');
  	$this->form_validation->set_rules('body','Body','required');
 
- 	if ($this->form_validation->run() === FALSE) {
- 		 	$this->load->view('template/header');
-			$this->load->view('posts/create', $data);
-			$this->load->view('template/footer');
- 		}else{
- 			$config['upload_path']='./assets/img/posts';
- 			$config['allowed_types']='gif|png|jpg';
- 			$this->load->library('upload',$config);
+        if ($this->session->has_userdata('user_data')) {
+                if ($this->form_validation->run() === FALSE) {
+            $this->load->view('templateAdmin/header');
+            $this->load->view('posts/create', $data);
+            $this->load->view('template/footer');
+        }else{
+            $config['upload_path']='./assets/img/posts';
+            $config['allowed_types']='gif|png|jpg';
+            $this->load->library('upload',$config);
 
- 			if (!$this->upload->do_upload()) {
- 				$errors = array('error' => $this->upload->display_errors());
- 				$post_image = 'noimage.png';
- 				var_dump($errors);
- 			}else{
- 				$data = array('upload_data' => $this->upload->data());
- 			
- 				$post_image = $_FILES['userfile']['name'];
- 			}
- 			$this->post_model->create_post($post_image);
- 		}
+            if (!$this->upload->do_upload()) {
+                $errors = array('error' => $this->upload->display_errors());
+                $post_image = 'noimage.png';
+                var_dump($errors);
+            }else{
+                $data = array('upload_data' => $this->upload->data());
+            
+                $post_image = $_FILES['userfile']['name'];
+            }
+            $this->post_model->create_post($post_image);
+        }
+        }else{
+            redirect('index.php/login');
+        }
  }
  public function delete($id){	
- 	$this->post_model->delete_post($id);
- 	redirect('index.php/post');
+
+    if ($this->session->has_userdata('user_data')) {
+        $this->post_model->delete_post($id);
+            redirect('index.php/post');
+        }else{
+    redirect('index.php/login');
+    }
  }
  public function edit($slug){
- 	$data['post'] = $this->post_model->get_posts($slug);
- 	$data['categories'] = $this->post_model->get_categories();
- 	if (empty($data['post'])) {
- 		show_404();
- 	}
- 	$data['title'] = 'Editar publicaciones';
-	 $this->load->view('template/header');
-	 $this->load->view('posts/edit', $data);
-	 $this->load->view('template/footer');
+    if ($this->session->has_userdata('user_data')) {
+     
+    $data['post'] = $this->post_model->get_posts($slug);
+    $data['categories'] = $this->post_model->get_categories();
+    if (empty($data['post'])) {
+        show_404();
+    }
+    $data['title'] = 'Editar publicaciones';
+     $this->load->view('templateAdmin/header');
+     $this->load->view('posts/edit', $data);
+     $this->load->view('template/footer');   
+    }else{
+        redirect('index.php/login');
+    }
+
  }
  public function update(){
  	$this->post_model->update_post();

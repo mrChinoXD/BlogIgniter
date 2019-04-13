@@ -23,10 +23,11 @@ class Login extends CI_controller
         if($user=$this->login_model->login($nombre, $password))
         {
          	$this->session->set_userdata('user_data', array(
-                'nombre'=>$user->nombre,
-                'id'=>$user->id,
+                 'nombre'=>$user->nombre,
+                 'id'=>$user->id,
                  'mail'=>$user->correo,
-                 'password'=>$user->password
+                 'password'=>$user->password,
+                 'is_loged'=> true
                 ));
          	redirect('index.php/admin/index');
         }
